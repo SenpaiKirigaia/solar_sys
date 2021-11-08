@@ -11,10 +11,10 @@ import pygame as pg
 header_font = "Arial-16"
 """Шрифт в заголовке"""
 
-window_width = 900
+window_width = 800
 """Ширина окна"""
 
-window_height = 12
+window_height = 800
 """Высота окна"""
 
 scale_factor = 1
@@ -28,7 +28,7 @@ scale_factor = 1
 def calculate_scale_factor(max_distance):
     """Вычисляет значение глобальной переменной **scale_factor** по данной характерной длине"""
     global scale_factor
-    scale_factor = 0.5*min(window_height, window_width)/max_distance
+    scale_factor = 0.5 * min(window_height, window_width) / max_distance
     print('Scale factor:', scale_factor)
 
 
@@ -43,7 +43,7 @@ def scale_x(x):
     **x** — x-координата модели.
     """
 
-    return int(x*scale_factor) + window_width//2
+    return int(x * scale_factor) + window_width // 2
 
 
 def scale_y(y):
@@ -60,7 +60,6 @@ def scale_y(y):
     pass  # FIXME
 
 
-
 if __name__ == "__main__":
     print("This module is not for direct call!")
 
@@ -69,12 +68,11 @@ class Drawer:
     def __init__(self, screen):
         self.screen = screen
 
-
     def update(self, figures, ui):
         self.screen.fill((0, 0, 0))
         for figure in figures:
             figure.draw(self.screen)
-        
+
         ui.blit()
         ui.update()
         pg.display.update()
@@ -85,4 +83,4 @@ class DrawableObject:
         self.obj = obj
 
     def draw(self, surface):
-            pass  # FIXME
+        pass  # FIXME
