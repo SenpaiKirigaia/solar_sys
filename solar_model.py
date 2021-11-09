@@ -23,13 +23,12 @@ def calculate_force(body, space_objects):
     for obj in space_objects:
         if body == obj:
             continue  # тело не действует гравитационной силой на само себя!
-        dy = body.y - obj.y
-        dx = body.x - obj.x
+        dy = obj.y - body.y
+        dx = obj.x - body.x
         r = ((dy) ** 2 + (dx) ** 2) ** 0.5  # расстояние между объектами
-        r = max(r, body[1])
         an = math.atan2(dy, dx)  # угол между горизонталью и прямой, соединяющей два объекта
-        body.Fx += math.cos(an) * gravitational_constant * body.mass * obj.mass / r ** 2
-        body.Fy += math.sin(an) * gravitational_constant * body.mass * obj.mass / r ** 2
+        body.Fx += math.cos(an) * gravitational_constant * body.m * obj.m / r ** 2
+        body.Fy += math.sin(an) * gravitational_constant * body.m * obj.m / r ** 2
 
 
 def move_space_object(body, dt):
@@ -40,11 +39,11 @@ def move_space_object(body, dt):
     **body** — тело, которое нужно переместить.
     """
     ax = body.Fx / body.m
-    body.vx += ax * dt
-    body.x += body.vx * dt
-    ay = body.Fy * body.m
-    body.vy += ay * dt
-    body.y += body.vy * dt
+    body.Vx += ax * dt
+    body.x += body.Vx * dt
+    ay = body.Fy / body.m
+    body.Vy += ay * dt
+    body.y += body.Vy * dt
 
 
 def recalculate_space_objects_positions(space_objects, dt):
