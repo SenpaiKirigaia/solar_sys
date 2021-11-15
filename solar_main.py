@@ -1,8 +1,8 @@
 # coding: utf-8
 # license: GPLv3
 
-from solar_vis import *
-from solar_model import *
+from Visualization.solar_vis import *
+from Objects.solar_model import *
 from solar_input import *
 
 import pygame
@@ -53,7 +53,7 @@ def start_execution():
 def pause_execution():
     global perform_execution
     global space_objects
-    write_space_objects_data_to_file('out.txt', space_objects)
+    write_space_objects_data_to_file('Configurations/out.txt', space_objects)
     perform_execution = False
 
 
@@ -75,7 +75,7 @@ def open_file():
     global model_time
 
     model_time = 0.0
-    in_filename = "one_satellite.txt"
+    in_filename = "Configurations/one_satellite.txt"
     space_objects = read_space_objects_data_from_file(in_filename)
     max_distance = max([max(abs(obj.obj.x), abs(obj.obj.y)) for obj in space_objects])
     calculate_scale_factor(max_distance)

@@ -4,7 +4,7 @@
 import math
 
 gravitational_constant = 6.67408E-11
-"""Гравитаионная постоянная Ньютона G"""
+"""Гравитационная постоянная Ньютона G"""
 
 
 def calculate_force(body, space_objects):
