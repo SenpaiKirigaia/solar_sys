@@ -1,11 +1,12 @@
 # coding: utf-8
 # license: GPLv3
 
-import pygame as pg
 from solar_vis import *
 from solar_model import *
 from solar_input import *
-from solar_objects import *
+
+import pygame
+import ctypes
 import thorpy
 import time
 import numpy as np
@@ -51,6 +52,8 @@ def start_execution():
 
 def pause_execution():
     global perform_execution
+    global space_objects
+    write_space_objects_data_to_file('out.txt', space_objects)
     perform_execution = False
 
 
@@ -72,7 +75,7 @@ def open_file():
     global model_time
 
     model_time = 0.0
-    in_filename = "solar_system.txt"
+    in_filename = "one_satellite.txt"
     space_objects = read_space_objects_data_from_file(in_filename)
     max_distance = max([max(abs(obj.obj.x), abs(obj.obj.y)) for obj in space_objects])
     calculate_scale_factor(max_distance)
@@ -87,7 +90,7 @@ def handle_events(events, menu):
 
 
 def slider_to_real(val):
-    return np.exp(5 + val)
+    return np.sign(val)*np.exp(5 + abs(val))
 
 
 def slider_reaction(event):
@@ -97,7 +100,7 @@ def slider_reaction(event):
 
 def init_ui(screen):
     global browser
-    slider = thorpy.SliderX(100, (-10, 10), "Simulation speed")
+    slider = thorpy.SliderX(100, (-15, 15), "Simulation speed")
     slider.user_func = slider_reaction
     button_stop = thorpy.make_button("Quit", func=stop_execution)
     button_pause = thorpy.make_button("Pause", func=pause_execution)
@@ -148,10 +151,10 @@ def main():
     physical_time = 0
 
     pg.init()
-
-    width = 1000
-    height = 900
-    screen = pg.display.set_mode((width, height))
+    user32 = ctypes.windll.user32
+    width = user32.GetSystemMetrics(0)
+    height = user32.GetSystemMetrics(1) - 55
+    screen = pg.display.set_mode((width, height), pygame.FULLSCREEN)
     last_time = time.perf_counter()
     drawer = Drawer(screen)
     menu, box, timer = init_ui(screen)
